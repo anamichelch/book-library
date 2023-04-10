@@ -48,6 +48,27 @@ def submit_book():
 
     return render_template(url_for('add.html'))
 
+@app.route("/edit_book/<int:book_id>")
+def edit_book(book_id):
+    #retrieve book you are looking to edit
+    book = Book.query.filter_by(id=book_id).first()
+    return render_template("edit-rating.html", book=book)
+
+
+@app.route("/update_rating/<int:book_id>", methods=['POST'])
+def update_rating(book_id):
+    #get filtered book
+    book = Book.query.filter_by(id=book_id).first()
+
+    #update rating accring to the form
+    book.rating = request.form["new_rating"]
+
+    db.session.commit()
+
+
+    return redirect(url_for('home'))
+
+
 
 
 
