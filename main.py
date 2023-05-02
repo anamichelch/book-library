@@ -59,24 +59,20 @@ def edit_book(book_id):
 def update_rating(book_id):
     #get filtered book
     book = Book.query.filter_by(id=book_id).first()
-
     #update rating accring to the form
     book.rating = request.form["new_rating"]
-
     db.session.commit()
-
-
     return redirect(url_for('home'))
 
-
-
-
-
-
-
-
-
-
+@app.route("/delete_book/<int:book_id>", methods=['POST'])
+def delete_book(book_id):
+    #get book filtered
+    book = Book.query.filter_by(id=book_id).first()
+    #Delete book
+    db.session.delte(book)
+    db.session.commit()
+    #Redirect to home page
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)
